@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Validação de Documento</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 80px;
+    }
+    .ok {
+      color: green;
+      font-size: 22px;
+    }
+    .erro {
+      color: red;
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Verificação de Documento</h1>
+
+  <p id="resultado"></p>
+
+  <script>
+    // "Banco de dados" de códigos válidos
+    const codigosValidos = {
+      "ABC123": "Emitido em 10/02/2026",
+      "XYZ999": "Emitido em 05/01/2026",
+      "TESTE01": "Documento de teste"
+    };
+
+    // Pegar código da URL
+    const params = new URLSearchParams(window.location.search);
+    const codigo = params.get("codigo");
+
+    const resultado = document.getElementById("resultado");
+
+    if (!codigo) {
+      resultado.innerHTML = "<span class='erro'>Nenhum código informado.</span>";
+    } 
+    else if (codigosValidos[codigo]) {
+      resultado.innerHTML = `
+        <span class='ok'>✅ Documento válido</span><br><br>
+        Código: <b>${codigo}</b><br>
+        Info: ${codigosValidos[codigo]}
+      `;
+    } 
+    else {
+      resultado.innerHTML = `
+        <span class='erro'>❌ Código não encontrado</span><br><br>
+        Código consultado: <b>${codigo}</b>
+      `;
+    }
+  </script>
+
+</body>
+</html>
