@@ -2,57 +2,145 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Validação de Documento</title>
+  <title>Página de Validação</title>
+
   <style>
     body {
-      font-family: Arial;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f6fb;
       text-align: center;
-      margin-top: 80px;
     }
-    .ok {
+
+    /* Cabeçalho */
+    header {
+      background: linear-gradient(to right, #0a4fa3, #2f80ed);
+      padding: 25px;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* Cartão */
+    .card {
+      width: 90%;
+      max-width: 500px;
+      background: white;
+      margin: 60px auto;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
+    }
+
+    /* Ícone */
+    .icone {
+      font-size: 80px;
+      margin-bottom: 15px;
+    }
+
+    /* Texto principal */
+    .titulo-ok {
       color: green;
-      font-size: 22px;
+      font-size: 26px;
+      font-weight: bold;
     }
-    .erro {
+
+    .titulo-erro {
       color: red;
-      font-size: 22px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    /* Detalhes */
+    .info {
+      margin-top: 25px;
+      text-align: left;
+      font-size: 18px;
+      line-height: 2;
+    }
+
+    /* Botão */
+    button {
+      margin-top: 30px;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #2f80ed;
+      color: white;
+    }
+
+    button:hover {
+      background: #125bb5;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: gray;
     }
   </style>
 </head>
+
 <body>
 
-  <h1>Verificação de Documento</h1>
+  <header>🔒 Página de Validação</header>
 
-  <p id="resultado"></p>
+  <div class="card">
+    <div id="conteudo"></div>
+
+    <button onclick="window.location.href='index.html'">
+      🔍 Nova Consulta
+    </button>
+  </div>
+
+  <footer>© 2026 - Sistema de Validação</footer>
 
   <script>
-    // "Banco de dados" de códigos válidos
+    // Códigos válidos simulados
     const codigosValidos = {
-      "ABC123": "Emitido em 10/02/2026",
-      "XYZ999": "Emitido em 05/01/2026",
-      "TESTE01": "Documento de teste"
+      "ABC123": {
+        data: "10/02/2026",
+        emitido: "Clínica Exemplo"
+      },
+      "TESTE01": {
+        data: "01/01/2026",
+        emitido: "Projeto Pessoal"
+      }
     };
 
-    // Pegar código da URL
+    // Captura código da URL
     const params = new URLSearchParams(window.location.search);
     const codigo = params.get("codigo");
 
-    const resultado = document.getElementById("resultado");
+    const conteudo = document.getElementById("conteudo");
 
-    if (!codigo) {
-      resultado.innerHTML = "<span class='erro'>Nenhum código informado.</span>";
-    } 
-    else if (codigosValidos[codigo]) {
-      resultado.innerHTML = `
-        <span class='ok'>✅ Documento válido</span><br><br>
-        Código: <b>${codigo}</b><br>
-        Info: ${codigosValidos[codigo]}
+    // Se código existe e é válido
+    if (codigo && codigosValidos[codigo]) {
+
+      conteudo.innerHTML = `
+        <div class="icone">✅</div>
+        <div class="titulo-ok">Documento Válido</div>
+
+        <div class="info">
+          <b>Código:</b> ${codigo} <br>
+          <b>Status:</b> Documento Autenticado <br>
+          <b>Emitido em:</b> ${codigosValidos[codigo].data} <br>
+          <b>Emitido por:</b> ${codigosValidos[codigo].emitido}
+        </div>
       `;
-    } 
-    else {
-      resultado.innerHTML = `
-        <span class='erro'>❌ Código não encontrado</span><br><br>
-        Código consultado: <b>${codigo}</b>
+
+    } else {
+
+      conteudo.innerHTML = `
+        <div class="icone">❌</div>
+        <div class="titulo-erro">Código Não Encontrado</div>
+
+        <div class="info">
+          <b>Código consultado:</b> ${codigo ? codigo : "Nenhum"} <br><br>
+          Por favor, verifique e tente novamente.
+        </div>
       `;
     }
   </script>
