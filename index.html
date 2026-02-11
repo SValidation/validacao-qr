@@ -5,12 +5,32 @@
   <title>Página de Validação</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f2f6fb;
-      text-align: center;
-    }
+    .topo {
+  background: linear-gradient(to right, #0a4fa3, #2f80ed);
+  padding: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.escudo {
+  width: 45px;
+  height: 45px;
+  border: 2px solid white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
 
     /* Cabeçalho */
     header {
@@ -91,6 +111,7 @@
     <span>Sistema de Validação</span>
   </div>
 </header>
+
   <div class="card">
     <div id="conteudo"></div>
 
