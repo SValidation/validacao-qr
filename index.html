@@ -28,29 +28,38 @@
       font-weight: bold;
     }
 
-    /* ESCUDO COM SV EM CIMA */
+    /* ESCUDO PROFISSIONAL */
     .escudo {
-      width: 52px;
-      height: 58px;
-      border: 2px solid white;
-      border-radius: 14px;
+      width: 55px;
+      height: 65px;
+      background: white;
+      border-radius: 0 0 18px 18px;
+      clip-path: polygon(
+        50% 100%,
+        0% 75%,
+        0% 0%,
+        100% 0%,
+        100% 75%
+      );
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
-      font-size: 18px;
-      line-height: 1.1;
+      border: 3px solid #ffffff;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
     }
 
     .escudo span {
-      display: block;
+      font-weight: bold;
+      font-size: 18px;
+      color: #0a4fa3;
+      line-height: 1.1;
+      text-align: center;
     }
 
     /* CARD */
     .card {
       width: 92%;
-      max-width: 700px;
+      max-width: 720px;
       background: white;
       margin: 60px auto;
       padding: 35px;
@@ -75,18 +84,24 @@
       font-weight: bold;
     }
 
-    /* INFOS */
+    /* DADOS */
     .info {
       margin-top: 25px;
       text-align: left;
-      font-size: 17px;
+      font-size: 16.5px;
       line-height: 1.9;
     }
 
-    hr {
-      border: none;
-      border-top: 1px solid #ddd;
-      margin: 15px 0;
+    .bloco {
+      background: #f8fbff;
+      border-left: 5px solid #2f80ed;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 18px;
+    }
+
+    .bloco b {
+      color: #111;
     }
 
     /* QR CODE */
@@ -117,8 +132,7 @@
   <header class="topo">
     <div class="logo">
       <div class="escudo">
-        <span>S</span>
-        <span>V</span>
+        <span>S<br>V</span>
       </div>
       <span>Sistema de Validação</span>
     </div>
@@ -135,12 +149,13 @@
     /* Banco de dados simulado */
     const atendimentosValidos = {
       "112695243": {
+        documento: "Atestado de Atendimento",
         data: "04/02/2026 - 10:26 BRT",
         situacao: "Atendido",
-        unidade: "(4272619) UNIDADE DE PRONTO ATENDIMENTO - UPA CONTINENTE",
-        profissional: "(522822809) Mariana Radulski",
+        unidade: "(4272619) UPA CONTINENTE",
+        profissional: "Mariana Radulski",
         crm: "35527",
-        paciente: "(1732607) SELSON THIAGO MIRANDA DIAS",
+        paciente: "SELSON THIAGO MIRANDA DIAS",
         cns: "702.905.519.307.574",
         cpf: "903.024.512-34"
       }
@@ -152,45 +167,46 @@
 
     const conteudo = document.getElementById("conteudo");
 
-    /* Se encontrado */
     if (codigo && atendimentosValidos[codigo]) {
 
       const dados = atendimentosValidos[codigo];
 
-      /* Link atual para QR Code */
+      /* QR Code automático */
       const linkValidacao = window.location.href;
-
-      /* QR Code gerado automaticamente */
       const qrCodeUrl =
         "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="
         + encodeURIComponent(linkValidacao);
 
       conteudo.innerHTML = `
         <div class="icone">✅</div>
-        <div class="titulo-ok">Documento Válido</div>
+        <div class="titulo-ok">Documento Autenticado</div>
 
         <div class="info">
-          <hr>
-          <b>Atendimento número:</b> ${codigo}<br>
-          <b>Data do atendimento:</b> ${dados.data}<br>
-          <b>Situação do Atendimento:</b> ${dados.situacao}<br>
 
-          <hr>
-          <b>Unidade:</b> ${dados.unidade}<br>
+          <div class="bloco">
+            <b>Tipo de Documento:</b> ${dados.documento}<br>
+            <b>Atendimento Nº:</b> ${codigo}<br>
+            <b>Data do Atendimento:</b> ${dados.data}<br>
+            <b>Situação:</b> ${dados.situacao}
+          </div>
 
-          <hr>
-          <b>Profissional:</b> ${dados.profissional}<br>
-          <b>CRM:</b> ${dados.crm}<br>
+          <div class="bloco">
+            <b>Unidade:</b> ${dados.unidade}<br>
+            <b>Profissional:</b> ${dados.profissional}<br>
+            <b>CRM:</b> ${dados.crm}
+          </div>
 
-          <hr>
-          <b>Paciente:</b> ${dados.paciente}<br>
-          <b>CNS do Paciente:</b> ${dados.cns}<br>
-          <b>CPF do Paciente:</b> ${dados.cpf}<br>
+          <div class="bloco">
+            <b>Paciente:</b> ${dados.paciente}<br>
+            <b>CNS:</b> ${dados.cns}<br>
+            <b>CPF:</b> ${dados.cpf}
+          </div>
+
         </div>
 
         <div class="qrcode-box">
           <h3>QR Code de Verificação</h3>
-          <p>Escaneie para consultar este atendimento:</p>
+          <p>Escaneie para consultar este documento:</p>
           <img src="${qrCodeUrl}" alt="QR Code">
         </div>
       `;
@@ -199,12 +215,13 @@
 
       conteudo.innerHTML = `
         <div class="icone">❌</div>
-        <div class="titulo-erro">Código Não Encontrado</div>
+        <div class="titulo-erro">Documento Não Encontrado</div>
 
         <div class="info">
-          <hr>
-          <b>Código consultado:</b> ${codigo ? codigo : "Nenhum"}<br><br>
-          Por favor, verifique e tente novamente.
+          <div class="bloco">
+            <b>Código consultado:</b> ${codigo ? codigo : "Nenhum"}<br><br>
+            Nenhum registro válido foi localizado.
+          </div>
         </div>
       `;
     }
