@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Página de Validação</title>
+  <title>Sistema de Validação</title>
 
   <style>
     body {
@@ -11,60 +11,51 @@
       background: #f2f6fb;
       text-align: center;
     }
+
+    /* TOPO */
     .topo {
-  background: linear-gradient(to right, #0a4fa3, #2f80ed);
-  padding: 20px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: white;
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.escudo {
-  width: 45px;
-  height: 45px;
-  border: 2px solid white;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-    /* Cabeçalho */
-    header {
       background: linear-gradient(to right, #0a4fa3, #2f80ed);
-      padding: 25px;
+      padding: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
       color: white;
-      font-size: 28px;
+      font-size: 26px;
       font-weight: bold;
     }
 
-    /* Cartão */
+    .escudo {
+      width: 48px;
+      height: 48px;
+      border: 2px solid white;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* CARD */
     .card {
-      width: 90%;
-      max-width: 500px;
+      width: 92%;
+      max-width: 650px;
       background: white;
       margin: 60px auto;
-      padding: 40px;
-      border-radius: 15px;
+      padding: 35px;
+      border-radius: 18px;
       box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
     }
 
-    /* Ícone */
     .icone {
       font-size: 80px;
       margin-bottom: 15px;
     }
 
-    /* Texto principal */
     .titulo-ok {
       color: green;
       font-size: 26px;
@@ -77,18 +68,28 @@
       font-weight: bold;
     }
 
-    /* Detalhes */
+    /* INFOS */
     .info {
       margin-top: 25px;
       text-align: left;
-      font-size: 18px;
-      line-height: 2;
+      font-size: 17px;
+      line-height: 1.9;
     }
 
-    /* Botão */
+    .info b {
+      color: #222;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 15px 0;
+    }
+
+    /* BOTÃO */
     button {
       margin-top: 30px;
-      padding: 15px 25px;
+      padding: 14px 25px;
       border: none;
       border-radius: 10px;
       font-size: 16px;
@@ -111,10 +112,15 @@
 
 <body>
 
-  <header>
-  🛡️ SV Sistema de Validação
-</header>
+  <!-- TOPO -->
+  <header class="topo">
+    <div class="logo">
+      <div class="escudo">SV</div>
+      <span>Sistema de Validação</span>
+    </div>
+  </header>
 
+  <!-- CARD -->
   <div class="card">
     <div id="conteudo"></div>
 
@@ -126,36 +132,52 @@
   <footer>© 2026 - Sistema de Validação</footer>
 
   <script>
-    // Códigos válidos simulados
-    const codigosValidos = {
-      "ABC123": {
-        data: "10/02/2026",
-        emitido: "Clínica Exemplo"
-      },
-      "TESTE01": {
-        data: "01/01/2026",
-        emitido: "Projeto Pessoal"
+    /* Banco de dados simulado */
+    const atendimentosValidos = {
+      "112695243": {
+        data: "04/02/2026 - 10:26 BRT",
+        situacao: "Atendido",
+        unidade: "(4272619) UNIDADE DE PRONTO ATENDIMENTO - UPA CONTINENTE",
+        profissional: "(522822809) Mariana Radulski",
+        crm: "35527",
+        paciente: "(1732607) SELSON THIAGO MIRANDA DIAS",
+        cns: "702.905.519.307.574",
+        cpf: "903.024.512-34"
       }
     };
 
-    // Captura código da URL
+    /* Captura código da URL */
     const params = new URLSearchParams(window.location.search);
     const codigo = params.get("codigo");
 
     const conteudo = document.getElementById("conteudo");
 
-    // Se código existe e é válido
-    if (codigo && codigosValidos[codigo]) {
+    /* Se encontrado */
+    if (codigo && atendimentosValidos[codigo]) {
+
+      const dados = atendimentosValidos[codigo];
 
       conteudo.innerHTML = `
         <div class="icone">✅</div>
         <div class="titulo-ok">Documento Válido</div>
 
         <div class="info">
-          <b>Código:</b> ${codigo} <br>
-          <b>Status:</b> Documento Autenticado <br>
-          <b>Emitido em:</b> ${codigosValidos[codigo].data} <br>
-          <b>Emitido por:</b> ${codigosValidos[codigo].emitido}
+          <hr>
+          <b>Atendimento número:</b> ${codigo}<br>
+          <b>Data do atendimento:</b> ${dados.data}<br>
+          <b>Situação do Atendimento:</b> ${dados.situacao}<br>
+
+          <hr>
+          <b>Unidade:</b> ${dados.unidade}<br>
+
+          <hr>
+          <b>Profissional:</b> ${dados.profissional}<br>
+          <b>CRM:</b> ${dados.crm}<br>
+
+          <hr>
+          <b>Paciente:</b> ${dados.paciente}<br>
+          <b>CNS do Paciente:</b> ${dados.cns}<br>
+          <b>CPF do Paciente:</b> ${dados.cpf}<br>
         </div>
       `;
 
@@ -166,8 +188,9 @@
         <div class="titulo-erro">Código Não Encontrado</div>
 
         <div class="info">
+          <hr>
           <b>Código consultado:</b> ${codigo ? codigo : "Nenhum"} <br><br>
-          Por favor, verifique e tente novamente.
+          Por favor, verifique os dados e tente novamente.
         </div>
       `;
     }
