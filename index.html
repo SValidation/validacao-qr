@@ -22,22 +22,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       color: white;
       font-size: 26px;
       font-weight: bold;
     }
 
+    /* ESCUDO COM SV EM CIMA */
     .escudo {
-      width: 48px;
-      height: 48px;
+      width: 52px;
+      height: 58px;
       border: 2px solid white;
       border-radius: 14px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       font-weight: bold;
       font-size: 18px;
+      line-height: 1.1;
+    }
+
+    .escudo span {
+      display: block;
     }
 
     /* CARD */
@@ -89,32 +96,17 @@
     }
 
     .qrcode-box img {
-      width: 160px;
+      width: 175px;
       margin-top: 10px;
       border: 6px solid #f2f6fb;
       border-radius: 12px;
-    }
-
-    /* BOTÃO */
-    button {
-      margin-top: 30px;
-      padding: 14px 25px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      background: #2f80ed;
-      color: white;
-    }
-
-    button:hover {
-      background: #125bb5;
     }
 
     footer {
       margin-top: 50px;
       font-size: 14px;
       color: gray;
+      padding-bottom: 20px;
     }
   </style>
 </head>
@@ -124,7 +116,10 @@
   <!-- TOPO -->
   <header class="topo">
     <div class="logo">
-      <div class="escudo">SV</div>
+      <div class="escudo">
+        <span>S</span>
+        <span>V</span>
+      </div>
       <span>Sistema de Validação</span>
     </div>
   </header>
@@ -132,10 +127,6 @@
   <!-- CARD -->
   <div class="card">
     <div id="conteudo"></div>
-
-    <button onclick="window.location.href='index.html'">
-      🔍 Nova Consulta
-    </button>
   </div>
 
   <footer>© 2026 - Sistema de Validação</footer>
@@ -169,9 +160,9 @@
       /* Link atual para QR Code */
       const linkValidacao = window.location.href;
 
-      /* QR Code gerado usando API pública */
+      /* QR Code gerado automaticamente */
       const qrCodeUrl =
-        "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="
+        "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="
         + encodeURIComponent(linkValidacao);
 
       conteudo.innerHTML = `
@@ -212,8 +203,8 @@
 
         <div class="info">
           <hr>
-          <b>Código consultado:</b> ${codigo ? codigo : "Nenhum"} <br><br>
-          Por favor, verifique os dados e tente novamente.
+          <b>Código consultado:</b> ${codigo ? codigo : "Nenhum"}<br><br>
+          Por favor, verifique e tente novamente.
         </div>
       `;
     }
