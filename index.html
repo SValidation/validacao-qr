@@ -43,7 +43,7 @@
     /* CARD */
     .card {
       width: 92%;
-      max-width: 650px;
+      max-width: 700px;
       background: white;
       margin: 60px auto;
       padding: 35px;
@@ -76,14 +76,23 @@
       line-height: 1.9;
     }
 
-    .info b {
-      color: #222;
-    }
-
     hr {
       border: none;
       border-top: 1px solid #ddd;
       margin: 15px 0;
+    }
+
+    /* QR CODE */
+    .qrcode-box {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .qrcode-box img {
+      width: 160px;
+      margin-top: 10px;
+      border: 6px solid #f2f6fb;
+      border-radius: 12px;
     }
 
     /* BOTÃO */
@@ -141,8 +150,8 @@
         profissional: "(522822809) Mariana Radulski",
         crm: "35527",
         paciente: "(1732607) SELSON THIAGO MIRANDA DIAS",
-        cns: "702.905.519.307.574",
-        cpf: "903.024.512-34"
+        cns: "702.905.*.*.*",
+        cpf: "903.*.*-**"
       }
     };
 
@@ -156,6 +165,14 @@
     if (codigo && atendimentosValidos[codigo]) {
 
       const dados = atendimentosValidos[codigo];
+
+      /* Link atual para QR Code */
+      const linkValidacao = window.location.href;
+
+      /* QR Code gerado usando API pública */
+      const qrCodeUrl =
+        "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="
+        + encodeURIComponent(linkValidacao);
 
       conteudo.innerHTML = `
         <div class="icone">✅</div>
@@ -178,6 +195,12 @@
           <b>Paciente:</b> ${dados.paciente}<br>
           <b>CNS do Paciente:</b> ${dados.cns}<br>
           <b>CPF do Paciente:</b> ${dados.cpf}<br>
+        </div>
+
+        <div class="qrcode-box">
+          <h3>QR Code de Verificação</h3>
+          <p>Escaneie para consultar este atendimento:</p>
+          <img src="${qrCodeUrl}" alt="QR Code">
         </div>
       `;
 
